@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-image: url('webimg.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+.navbar {
+    text-align: center;
+    font-size: 36px;
+    padding: 20px;
+    background-color: #3498db; /* Updated navbar color */
+    color: white;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    padding-top: 70px;
+    padding-left: 7%;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+}
+
+.dynamicButton {
+    padding: 30px;
+    width: 250px;
+    height: 250px;
+    background-color: #f2f2f2; /* Updated button background color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+#addButton, #removeButton {
+    position: fixed;
+    bottom: 20px;
+    z-index: 1000;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#addButton {
+    right: 20px;
+    background-color: #27ae60; /* Updated add button color */
+    color: white;
+}
+
+#removeButton {
+    right: 100px;
+    background-color: #e74c3c; /* Updated remove button color */
+    color: white;
+}
+
+/* Hover effects */
+#addButton:hover, #removeButton:hover, .dynamicButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+

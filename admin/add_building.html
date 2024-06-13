@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Building</title>
+</head>
+<body>
+    <h2>Add New Building</h2>
+    <form id="addBuildingForm">
+        <input type="text" id="buildingName" placeholder="Building Name" required>
+        <button type="submit">Add</button>
+    </form>
+    
+    <script>
+        document.getElementById("addBuildingForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const buildingName = document.getElementById("buildingName").value;
+            fetch("add_building.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: buildingName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    window.location.href = "buildingadder.html";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

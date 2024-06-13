@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            width: 70%; /* Set width of the form container */
+            max-width: 600px; /* Set maximum width */
+            padding: 40px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Add spacing between form groups */
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group p {
+            width: 120px; /* Width of the labels */
+            margin: 0;
+            font-weight: bold; /* Make labels bold */
+        }
+
+        .form-group input[type="text"] {
+            flex: 1; /* Make input boxes flexible */
+            margin-left: 20px; /* Add spacing between label and input */
+            padding: 10px; /* Add padding to inputs */
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="text"].small {
+            width: 80px; /* Set width of date, time, and month input boxes */
+        }
+
+        .form-group input[type="date"]{
+            margin-left: 60px; /* Adjust margin to align with other inputs */
+        }
+
+
+
+        .form-group textarea {
+            flex: 1; /* Make textarea flexible */
+            margin-left: 20px; /* Add spacing between label and textarea */
+            padding: 10px; /* Add padding to textarea */
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px; /* Add spacing below the heading */
+        }
+        button[type="submit"] {
+            background-color: rgba(222, 20, 20, 0.901);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+            .form-container input{
+            margin-top: 0;
+            margin-bottom: 0;
+            background-color: lightgrey; /* Set the background color to grey */
+            border: none;
+            border-radius: 5px;
+            padding:8px;}
+            .form-container textarea{
+            margin-top: 0;
+            margin-bottom: 0;
+            background-color: lightgrey; /* Set the background color to grey */
+            border: none;
+            border-radius: 5px;
+            padding:8px;}
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>SUBMIT YOUR PROBLEM</h1>
+        <div class="form-group">
+            <p>NAME</p>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <p>DATE</p>
+            <input type="date">
+            <p style="margin-left: 30px;">TIME</p>
+            <input type="time">
+            <p style="margin-left: 20px;">MONTH</p>
+            <input type="month">
+        </div>
+        <div class="form-group">
+            <p>ISSUE</p>
+            <textarea></textarea>
+        </div>
+        <div class="form-group">
+            <p>DEADLINE TO SOLVE THE ISSUE</p>
+            <input type="text" value="1 DAY" readonly>
+        </div>
+
+        <center>
+            <a href="A_ticket2.html"><button type="submit">RAISE TICKET</button></a>
+        </center>
+
+    </div>
+</body>
+</html>

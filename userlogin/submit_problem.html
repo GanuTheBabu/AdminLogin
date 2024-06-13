@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Your Problem</title>
+    <!-- <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5; /* Set a light background color */
+        }
+
+        .form-container {
+            width: 70%; /* Set width of the form container */
+            max-width: 600px; /* Set maximum width */
+            padding: 40px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff; /* Set a white background color */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Add spacing between form groups */
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group p {
+            width: 120px; /* Width of the labels */
+            margin: 0;
+            font-weight: bold; /* Make labels bold */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group input[type="month"],
+        .form-group textarea {
+            flex: 1; /* Make input boxes flexible */
+            margin-left: 20px; /* Add spacing between label and input */
+            padding: 10px; /* Add padding to inputs */
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            height: 100px; /* Set height for the textarea */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px; /* Add spacing below the heading */
+        }
+
+        button[type="submit"] {
+            background-color: #ff4d4d; /* Set a red background color */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%; /* Make the button full-width */
+        }
+    </style> -->
+
+    <!-- bootstrap stylesheet  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- bootstrap js  -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+</head>
+
+<body style="background-color: rgb(120, 201, 233);">
+    <div class="container mt-3 d-flex justify-content-center align-items-center">
+        <form action="subm_problem.php" style="background-color: rgb(185, 220, 233);" class="border p-3 rounded shadow" method="post"> <!-- Modified form action -->
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center text-danger">SUBMIT YOUR PROBLEM</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name"
+                            required>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="staff" class="form-label">Staff Id</label>
+                    <input type="text" class="form-control" name="staff" id="staff" placeholder="Enter your id"
+                        required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="issue" class="form-label">Issue</label>
+                    <textarea name="issue" id="issue" class="form-control" rows="8" placeholder="Describe your issue" required></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="deadline" class="form-label">Deadline</label>
+                    <input type="text" name="deadline" id="deadline" class="form-control" value="1 DAY" readonly>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" id="date" class="form-control" name="date" required>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="time" class="form-label">Time</label>
+                    <input type="time" id="time" class="form-control name="time" required>
+                </div>
+                <div class="col-8 offset-2 mt-5 mb-3">
+                    <button type="submit" class="btn btn-danger form-control">RAISE TICKET</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

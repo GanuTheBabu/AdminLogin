@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Floor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #333;
+        }
+        #addFloorForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #buildingSelect, #floorName {
+            width: 300px;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        #addButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #addButton:hover {
+            background-color: #0056b3;
+        }
+        .floor-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .floor-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-size: 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .floor-button:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h2>Add New Floor</h2>
+    <form id="addFloorForm">
+        <select id="buildingSelect" required>
+            <option value="" disabled selected>Select Building</option>
+        </select>
+        <input type="text" id="floorName" placeholder="Floor Name" required>
+        <button type="submit" id="addButton">Add Floor</button>
+    </form>
+    <div class="floor-buttons" id="floorButtons">
+        <!-- Floor buttons will be added dynamically here -->
+    </div>
+
+    <script>
+        // Fetch and populate building dropdown
+        function fetchBuildings() {
+            fetch("get_buildings.php")
+                .then(response => response.json())
+                .then(data => {
+                    const buildingSelect = document.getElementById("buildingSelect");
+                    buildingSelect.innerHTML = '<option value="" disabled selected>Select Building</option>'; // Clear previous options
+                    data.forEach(building => {
+                        const option = document.createElement("option");
+                        option.value = building.id;
+                        option.innerText = building.name;
+                        buildingSelect.appendChild(option);
+                    });
+                });
+        }
+
+        // Fetch and populate floor buttons based on selected building
+        function fetchFloors(buildingId) {
+            fetch("get_floors.php?building_id=" + buildingId)
+                .then(response => response.json())
+                .then(data => {
+                    const floorButtons = document.getElementById("floorButtons");
+                    floorButtons.innerHTML = ""; // Clear previous buttons
+                    data.forEach(floor => {
+                        const button = document.createElement("button");
+                        button.className = "floor-button";
+                        button.innerText = floor.name;
+                        button.onclick = function() {
+                            alert('Floor: ' + floor.name);
+                        };
+                        button.oncontextmenu = function(event) {
+                            event.preventDefault();
+                            if (confirm('Do you want to delete the floor: ' + floor.name + '?')) {
+                                deleteFloor(floor.id);
+                            }
+                        };
+                        floorButtons.appendChild(button);
+                    });
+                });
+        }
+
+        // Handle form submission
+        document.getElementById("addFloorForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const buildingId = document.getElementById("buildingSelect").value;
+            const floorName = document.getElementById("floorName").value;
+            console.log("Building ID:", buildingId, "Floor name to add:", floorName); // Debugging
+            fetch("add_floor.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ buildingId: buildingId, floorName: floorName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data); // Debugging
+                alert(data.message);
+                if (data.success) {
+                    fetchFloors(buildingId); // Refresh floor buttons
+                }
+            });
+        });
+
+        // Handle building selection change
+        document.getElementById("buildingSelect").addEventListener("change", function(event) {
+            const buildingId = event.target.value;
+            fetchFloors(buildingId);
+        });
+
+        // Function to delete a floor
+        function deleteFloor(floorId) {
+            fetch("delete_floor.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ floorId: floorId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    const buildingId = document.getElementById("buildingSelect").value;
+                    fetchFloors(buildingId); // Refresh floor buttons
+                }
+            });
+        }
+
+        // Initial fetch of buildings
+        fetchBuildings();
+    </script>
+</body>
+</html>

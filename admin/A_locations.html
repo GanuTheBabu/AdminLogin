@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Page</title>
+    <link rel="stylesheet" href="location.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('webimg.jpeg');
+            background-size: cover; /* Cover the entire page */
+            background-position: center;
+        }
+
+        .navbar {
+            text-align: center;
+            font-size: 36px;
+            padding: 20px;
+            background-color: rgb(134, 182, 246); /* Update navbar color */
+            color: white; /* Change navbar text color */
+        }
+
+        .container {
+            display: grid;
+            justify-content: center;
+            padding-top: 70px;
+            padding-left: 7%;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+        }
+
+        .dynamicButton {
+            padding: 30px;
+            width: 250px;
+            height: 250px;
+            background-color: #E0E0E0; /* Default button background color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; /* Update transition */
+        }
+
+        #addButton, #removeButton {
+            position: fixed;
+            bottom: 20px;
+            z-index: 1000;
+            font-size: 24px; /* Adjust button font size */
+            border: none;
+            border-radius: 50%; /* Makes the buttons circular */
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Add smooth transition for hover effects */
+        }
+
+        #addButton {
+            right: 20px;
+            background-color: #2196F3; /* Update add button color */
+            color: white;
+        }
+
+        #removeButton {
+            right: 100px;
+            background-color: #F44336;
+            color: white;
+        }
+
+        /* Hover effects */
+        #addButton:hover, #removeButton:hover, .dynamicButton:hover {
+            transform: scale(1.05); /* Slightly scale up on hover */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add subtle shadow on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar"><b>LOCATION</b></div>
+    <div class="container" id="buttonContainer">
+        <!-- Buttons will be added dynamically here -->
+    </div>
+    <button id="addButton">+</button>
+    <button id="removeButton">-</button>
+    <script src="js/fetchButtons.js"></script>
+    <script src="js/manageButtons.js"></script>
+    <script>
+        // manageButtons.js
+
+        let colors = ['lightcoral', 'lightblue', 'lightgreen', 'lightyellow', 'lightpink']; // Add more colors as needed
+        let colorIndex = 0;
+
+        // manageButtons.js
+
+document.getElementById('addButton').addEventListener('click', function() {
+    let container = document.getElementById('buttonContainer');
+    let newButton = document.createElement('div');
+    newButton.className = 'dynamicButton';
+    newButton.textContent = 'Dynamic Button';
+    container.appendChild(newButton);
+});
+
+document.getElementById('removeButton').addEventListener('click', function() {
+    let container = document.getElementById('buttonContainer');
+    if (container.lastChild) {
+        container.removeChild(container.lastChild);
+    }
+});
+
+    </script>
+</body>
+</html>

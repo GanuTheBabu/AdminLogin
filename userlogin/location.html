@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floor and Room Selection</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #007bff;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .button-container {
+        text-align: center;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Floor and Room Selection</h2>
+        <form action="submit_problem.php" method="post">
+            <div class="form-group">
+                <label for="buildingSelect">Select Building:</label>
+                <select id="buildingSelect" name="building" required>
+                    <option value="" disabled selected>Select Building</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="floorGroup">
+                <label for="floorSelect">Select Floor:</label>
+                <select id="floorSelect" name="floor" required>
+                    <option value="" disabled selected>Select Floor</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="roomGroup">
+                <label for="roomSelect">Select Room:</label>
+                <select id="roomSelect" name="room" required>
+                    <option value="" disabled selected>Select Room</option>
+                </select>
+            </div>
+            
+            <div class="button-container disabled" id="submitContainer">
+                <button type="submit" class="button" name="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JavaScript to handle dynamic dropdown population -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var floorGroup = document.getElementById("floorGroup");
+            var roomGroup = document.getElementById("roomGroup");
+            var submitContainer = document.getElementById("submitContainer");
+
+            var buildingSelect = document.getElementById("buildingSelect");
+            var floorSelect = document.getElementById("floorSelect");
+            var roomSelect = document.getElementById("roomSelect");
+
+            function validateSelection() {
+                if (buildingSelect.value && floorSelect.value && roomSelect.value) {
+                    submitContainer.classList.remove("disabled");
+                } else {
+                    submitContainer.classList.add("disabled");
+                }
+            }
+
+            function fetchOptions(url, callback) {
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Data fetched from:', url, data); // Log the fetched data for debugging
+                        callback(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        alert('Error fetching data. Check the console for more details.');
+                    });
+            }
+
+            function populateDropdown(dropdown, items, placeholder) {
+                dropdown.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+                if (!Array.isArray(items)) {
+                    console.error('Expected an array of items:', items); // Log the invalid items
+                    return;
+                }
+                items.forEach(item => {
+                    let option = document.createElement("option");
+                    option.value = item.value;
+                    option.textContent = item.text;
+                    dropdown.appendChild(option);
+                });
+            }
+
+            buildingSelect.addEventListener("change", function() {
+                let building = buildingSelect.value;
+                fetchOptions(`get_buildings.php?building=${building}`, data => {
+                    if (data.floors) {
+                        populateDropdown(floorSelect, data.floors, "Select Floor");
+                        floorGroup.classList.remove("hidden");
+                        roomGroup.classList.add("hidden");
+                    } else {
+                        console.error('Expected floors in response:', data); // Log unexpected data
+                    }
+                    validateSelection();
+                });
+            });
+
+            floorSelect.addEventListener("change", function() {
+                let building = buildingSelect.value;
+                let floor = floorSelect.value;
+                fetchOptions(`get_buildings.php?building=${building}&floor=${floor}`, data => {
+                    if (data.rooms) {
+                        populateDropdown(roomSelect, data.rooms, "Select Room");
+                        roomGroup.classList.remove("hidden");
+                    } else {
+                        console.error('Expected rooms in response:', data); // Log unexpected data
+                    }
+                    validateSelection();
+                });
+            });
+
+            roomSelect.addEventListener("change", validateSelection);
+
+            // Initial load for buildings
+            fetchOptions('get_buildings.php', data => {
+                if (data.buildings) {
+                    populateDropdown(buildingSelect, data.buildings, "Select Building");
+                } else {
+                    console.error('Expected buildings in response:', data); // Log unexpected data
+                }
+            });
+        });
+    </script>
+</body>
+</html>

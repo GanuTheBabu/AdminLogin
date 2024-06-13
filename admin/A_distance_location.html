@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main page</title>
+    <style>
+        h6 {
+            font-size: 48px;
+            margin-bottom: 50px; 
+        }
+        .box {
+            width: 500px;
+            height: 50px;
+            background-color: grey;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            margin: 15px auto; 
+            border: none; /* Remove default button border */
+            cursor: pointer; /* Change cursor to pointer on hover */
+            display: block; /* Make the button a block element */
+        }
+        .submit-button {
+            width: 130px;
+            height: 45px;
+            background-color:skyblue;
+            color:black;
+            border: none;
+            border-radius: 12px; /* Half of the height to make an oval shape */
+            font-size: 20px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto; /* Center the button horizontally and add some space */
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h6>DETAILED LOCATION</h6>
+        <div> <!-- Container for the first dropdown -->
+            <select class="box" id="floorSelect">
+                <option value="" disabled selected hidden>SELECT FLOOR</option>
+                <option value="0">Ground Floor</option>
+                <option value="1">1st Floor</option>
+                <option value="2">2nd Floor</option>
+                <option value="3">3rd Floor</option>
+            </select>
+        </div>
+        <div> <!-- Container for the second dropdown -->
+            <select class="box" id="roomSelect">
+                <option value="" disabled selected hidden>SELECT ROOM NUMBER</option>
+            </select>
+        </div>
+        <!-- Submit button -->
+        <a href="A_ticket.html"><button class="submit-button">SUBMIT</button></a>
+    </center>
+</body>
+<script>
+    var floorSelect = document.getElementById("floorSelect");
+    var roomSelect = document.getElementById("roomSelect");
+
+    floorSelect.addEventListener("change", function() {
+        roomSelect.innerHTML = '<option value="" disabled selected>Select Room</option>';
+
+        if (floorSelect.value === "0") { // Ground Floor
+            for (var i = 90; i <= 94; i++) { // Rooms start from 90 to 94
+                roomSelect.innerHTML += '<option value="' + i + '">Room ' + i + '</option>';
+            }
+        } else if (floorSelect.value === "1") {
+            roomSelect.innerHTML += '<option value="101">Room 101</option>';
+            roomSelect.innerHTML += '<option value="102">Room 102</option>';
+            roomSelect.innerHTML += '<option value="103">Room 103</option>';
+            roomSelect.innerHTML += '<option value="104">Room 104</option>';
+            roomSelect.innerHTML += '<option value="105">Room 105</option>';
+        } else if (floorSelect.value === "2") {
+            roomSelect.innerHTML += '<option value="201">Room 201</option>';
+            roomSelect.innerHTML += '<option value="202">Room 202</option>';
+            roomSelect.innerHTML += '<option value="203">Room 203</option>';
+            roomSelect.innerHTML += '<option value="204">Room 204</option>';
+            roomSelect.innerHTML += '<option value="205">Room 205</option>';
+        } else if (floorSelect.value === "3") {
+            roomSelect.innerHTML += '<option value="301">Room 301</option>';
+            roomSelect.innerHTML += '<option value="302">Room 302</option>';
+            roomSelect.innerHTML += '<option value="303">Room 303</option>';
+            roomSelect.innerHTML += '<option value="304">Room 304</option>';
+            roomSelect.innerHTML += '<option value="305">Room 305</option>';
+        }
+    });
+</script>
+</html>

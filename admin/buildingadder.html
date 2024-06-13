@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Building</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #333;
+        }
+        #addBuildingForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #buildingName {
+            width: 300px;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        #addButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #addButton:hover {
+            background-color: #0056b3;
+        }
+        .building-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .building-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-size: 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .building-button:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h2>Add New Building</h2>
+    <form id="addBuildingForm">
+        <input type="text" id="buildingName" placeholder="Building Name" required>
+        <button type="submit" id="addButton">Add Building</button>
+    </form>
+    <div class="building-buttons" id="buildingButtons">
+        <!-- Building buttons will be added dynamically here -->
+    </div>
+
+    <script>
+        // Fetch and populate building buttons
+        function fetchBuildings() {
+            fetch("get_buildings.php")
+                .then(response => response.json())
+                .then(data => {
+                    const buildingButtons = document.getElementById("buildingButtons");
+                    buildingButtons.innerHTML = ""; // Clear previous buttons
+                    data.forEach(building => {
+                        const button = document.createElement("button");
+                        button.className = "building-button";
+                        button.innerText = building.name;
+                        button.onclick = function() {
+                            alert('Building: ' + building.name);
+                        };
+                        button.oncontextmenu = function(event) {
+                            event.preventDefault();
+                            if (confirm('Do you want to delete the building: ' + building.name + '?')) {
+                                deleteBuilding(building.id);
+                            }
+                        };
+                        buildingButtons.appendChild(button);
+                    });
+                });
+        }
+
+        // Handle form submission
+        document.getElementById("addBuildingForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const buildingName = document.getElementById("buildingName").value;
+            console.log("Building name to add:", buildingName); // Debugging
+            fetch("add_building.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ buildingName: buildingName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data); // Debugging
+                alert(data.message);
+                if (data.success) {
+                    fetchBuildings(); // Refresh building buttons
+                }
+            });
+        });
+
+        // Function to delete a building
+        function deleteBuilding(buildingId) {
+            fetch("delete_building.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ buildingId: buildingId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    fetchBuildings(); // Refresh building buttons
+                }
+            });
+        }
+
+        // Initial fetch of buildings
+        fetchBuildings();
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .button {
+            padding: 20px;
+            font-size: 20px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .building-button {
+            background-color: #ff6347; /* Shiny red */
+        }
+        .floor-button {
+            background-color: #007bff; /* Blue */
+        }
+        .room-button {
+            background-color: #ffc107; /* Yellow */
+        }
+        .button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h2>Common Page</h2>
+    <div class="button-container">
+        <button onclick="goToBuildingAdder()" class="button building-button">Building</button>
+        <button onclick="goToFloorAdder()" class="button floor-button">Floor</button>
+        <button onclick="goToRoomAdder()" class="button room-button">Room</button>
+    </div> 
+
+    <script>
+        function goToBuildingAdder() {
+            window.location.href = "buildingadder.html";
+        }
+
+        function goToFloorAdder() {
+            window.location.href = "flooradder.html";
+        }
+
+        function goToRoomAdder() {
+            window.location.href = "roomadder.html";
+        }
+    </script>
+    
+</body>
+</html>
