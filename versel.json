@@ -1,0 +1,9 @@
+{
+    "functions": {
+        "AdminLogin/**/*.php": { "runtime": "vercel-php@0.6.0" }
+    },
+    "routes": [
+        { "src": "/AdminLogin/(.*)\\.php", "dest": "/AdminLogin/$1.php" },
+        { "src": "/(.*)", "dest": "/api/index.php" }
+    ]
+}
